@@ -12,7 +12,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product.create');
+        $products = Product::all();
+
+        return view('product.index', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create');
     }
 
     /**
@@ -28,7 +32,24 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $messages = makeMessages();
+        //Validar datos
+        $request->validate([
+            'name' => ['required'],
+            'stock' => ['required', 'numeric'],
+            'price' => ['required', 'numeric'],
+        ], $messages);
+
+        //Crea el usuario
+        Product::create([
+            'name' => $request->name,
+            'stock' => $request->stock,
+            'price' => $request->price,
+        ]);
+
+        //Redirecciona el usuario
+        return redirect()->route('products');
     }
 
     /**
@@ -42,17 +63,35 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(string $id)
     {
-        //
+
+        $product = Product::find($id);
+
+        return view('product.edit', [
+            'product' => $product
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, string $id)
     {
-        //
+        $messages = makeMessages();
+        //Validar datos
+        $request->validate([
+            'name' => ['required'],
+            'stock' => ['required', 'numeric'],
+            'price' => ['required', 'numeric'],
+        ], $messages);
+
+        $product = Product::find($id);
+
+        $product->update($request->all());
+
+        //Redirecciona el usuario
+        return redirect()->route('products')->with('success', 'Se actualizaron los campos correctamente');
     }
 
     /**

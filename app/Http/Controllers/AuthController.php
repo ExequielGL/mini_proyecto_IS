@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         $messages = makeMessages();
         //Validar datos
-        $validated = $request->validate([
+        $request->validate([
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:5']
