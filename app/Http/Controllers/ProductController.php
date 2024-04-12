@@ -97,6 +97,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    // nuevo
     public function destroy(string $id)
     {
         $product = Product::find($id);
