@@ -1,22 +1,28 @@
 @extends('layout.app')
 
 @section('content')
-    {{-- <h3 class="text-3xl font-bold text-center">
-        Bienvenido {{ auth()->user()->name }}
-    </h3> --}}
+    {{-- Como llamar atributos pertenecientes al modelo del usuario autenticado --}}
+    <h3 class="text-3xl font-bold text-center">
+        Bienvenido {{ auth()->user()->isadmin }}
+    </h3>
 
-    {{-- @if (session('success'))
+    @if(isadmin=='')
+
+    @endif
+
+    @if (session('success'))
 
         <div class="bg-green-300 w-1/2 mx-auto p-2">
             <p class="text-center text-green-800 font-bold"> {{ session('success') }}</p>
         </div>
 
-    @endif --}}
+    @endif
     <div class="flex flex-col">
         <a class="bg-green-400 text-white font-bold mx-auto my-4 w-1/6 p-4 rounded-sm text-center"
             href="{{ route('products.create')}}">
             Añadir producto
         </a>
+
         @if ($products->count() > 0)
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
